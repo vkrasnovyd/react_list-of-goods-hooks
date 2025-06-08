@@ -16,19 +16,27 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_ALPHABETICALLY = 'Sort alphabetically';
-const SORT_BY_LENGTH = 'Sort by length';
+enum SortType {
+  alphabetically = 'Sort alphabetically',
+  byLength = 'Sort by length',
+  none = '',
+}
 
-function getPreparedGoods(goods, { sortField, isReversed }) {
+interface Props {
+  sortField: `${SortType}`;
+  isReversed: boolean;
+}
+
+function getPreparedGoods(goods: string[], { sortField, isReversed }: Props) {
   const preparedGoods = [...goods];
 
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_ALPHABETICALLY:
+        case SortType.alphabetically:
           return good1.localeCompare(good2);
 
-        case SORT_BY_LENGTH:
+        case SortType.byLength:
           return good1.length - good2.length;
 
         default:
@@ -45,8 +53,8 @@ function getPreparedGoods(goods, { sortField, isReversed }) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
-  const [isReversed, setIsReversed] = useState(false);
+  const [sortField, setSortField] = useState<`${SortType}`>('');
+  const [isReversed, setIsReversed] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     isReversed,
@@ -63,21 +71,21 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-info', {
-            'is-light': sortField !== SORT_ALPHABETICALLY,
+            'is-light': sortField !== SortType.alphabetically,
           })}
-          onClick={() => setSortField(SORT_ALPHABETICALLY)}
+          onClick={() => setSortField(SortType.alphabetically)}
         >
-          {SORT_ALPHABETICALLY}
+          {SortType.alphabetically}
         </button>
 
         <button
           type="button"
           className={classNames('button is-info', {
-            'is-light': sortField !== SORT_BY_LENGTH,
+            'is-light': sortField !== SortType.byLength,
           })}
-          onClick={() => setSortField(SORT_BY_LENGTH)}
+          onClick={() => setSortField(SortType.byLength)}
         >
-          {SORT_BY_LENGTH}
+          {SortType.byLength}
         </button>
 
         <button
