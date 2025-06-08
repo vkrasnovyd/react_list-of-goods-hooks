@@ -80,7 +80,7 @@ export const App: React.FC = () => {
           onClick={setSortField}
         />
 
-        <Button
+        <Button<boolean>
           value={!isReversed}
           className={classNames('button is-info', {
             'is-light': !isReversed,
