@@ -49,7 +49,7 @@ function getPreparedGoods(goods: string[], { sortField, isReversed }: Props) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<`${SortType}`>('');
+  const [sortField, setSortField] = useState<`${SortType}`>(SortType.none);
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
