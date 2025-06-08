@@ -2,6 +2,8 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { SortType } from './types/SortType';
+import { Button } from './components/Button';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,12 +17,6 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
-
-enum SortType {
-  alphabetically = 'Sort alphabetically',
-  byLength = 'Sort by length',
-  none = '',
-}
 
 interface Props {
   sortField: `${SortType}`;
@@ -61,51 +57,43 @@ export const App: React.FC = () => {
   });
 
   const resetGoods = () => {
-    setSortField('');
+    setSortField(SortType.none);
     setIsReversed(false);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
-        <button
-          type="button"
+        <Button
+          value={SortType.alphabetically}
           className={classNames('button is-info', {
             'is-light': sortField !== SortType.alphabetically,
           })}
-          onClick={() => setSortField(SortType.alphabetically)}
-        >
-          {SortType.alphabetically}
-        </button>
+          onClick={setSortField}
+        />
 
-        <button
-          type="button"
+        <Button
+          value={SortType.byLength}
           className={classNames('button is-info', {
             'is-light': sortField !== SortType.byLength,
           })}
-          onClick={() => setSortField(SortType.byLength)}
-        >
-          {SortType.byLength}
-        </button>
+          onClick={setSortField}
+        />
 
-        <button
-          type="button"
+        <Button
+          value={!isReversed}
           className={classNames('button is-info', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReversed(!isReversed)}
-        >
-          Reverse
-        </button>
+          onClick={setIsReversed}
+        />
 
         {(sortField || isReversed) && (
-          <button
-            type="button"
+          <Button
+            value=""
             className="button is-danger is-light"
             onClick={resetGoods}
-          >
-            Reset
-          </button>
+          />
         )}
       </div>
 
